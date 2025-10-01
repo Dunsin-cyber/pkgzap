@@ -155,26 +155,22 @@ function SearchBox() {
                   </p>
                   <div className="flex flex-col gap-1">
                     <p>🤩 Wow, thanks for tipping this project!</p>
-                    {/* TODO -  Enable boosting AGAIN once the limitation with simple-boost is fixed. addressed here - (https://github.com/getAlby/simple-boost/issues/8) */}
-                    {/* <p>Fancy to add another one on top? 😏</p> */}
+                    <p>Fancy to add another one on top? 😏</p>
                   </div>
                 </div>
               ) : (
                 <p>🎉 Hurray! You can tip this package. Be generous 😏</p>
               )}
-
-              {/* TODO -  Enable boosting AGAIN once the limitation with simple-boost is fixed. addressed here - (https://github.com/getAlby/simple-boost/issues/8) */}
               <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-                {!amountSats &&
-                  BOOST_AMOUNTS.map((amount) => (
-                    <div key={`boost-${amount}`}>
-                      <SimpleBoostWrapper
-                        address={packageInfo.details.lnAddress}
-                        amount={amount}
-                        className="w-full text-center text-black bg-white rounded-full p-2 font-bold cursor-pointer"
-                      />
-                    </div>
-                  ))}
+                {BOOST_AMOUNTS.map((amount) => (
+                  <div key={`boost-${amount}`}>
+                    <SimpleBoostWrapper
+                      address={packageInfo.details.lnAddress}
+                      amount={amount}
+                      className="w-full text-center text-black bg-white rounded-full p-2 font-bold cursor-pointer"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           )}

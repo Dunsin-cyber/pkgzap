@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import "simple-boost";
+import { SimpleBoostButton } from "simple-boost/react";
 import { useClient } from "../context";
 
 const SimpleBoostWrapper = ({
@@ -13,41 +12,22 @@ const SimpleBoostWrapper = ({
   currency?: string;
   className?: string;
 }) => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
   const { setInvoice } = useClient();
-  useEffect(() => {
-    let boostEl: Element | null = null;
-    const handleSuccess = (e: Event) => {
-      const customEvent = e as CustomEvent<{ pr: string }>;
-      setInvoice(customEvent.detail.pr);
-    };
+  const handleSuccess = (e: Event) => {
+    const customEvent = e as CustomEvent<{ pr: string }>;
+    setInvoice(customEvent.detail.pr);
+  };
 
-    import("simple-boost").then(() => {
-      boostEl = wrapperRef.current?.querySelector("simple-boost");
-      if (boostEl) {
-        boostEl.addEventListener("success", handleSuccess);
-      }
-    });
-
-    return () => {
-      if (boostEl) {
-        boostEl.removeEventListener("success", handleSuccess);
-      }
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // TODO: remove  dangerouslySetInnerHTML Delay rendering until custom element is ready and you're in the browser
-  // Do this once (https://github.com/getAlby/simple-boost/issues/8) is fixed
   return (
-    <div
-      ref={wrapperRef}
-      dangerouslySetInnerHTML={{
-        __html: `<simple-boost address="${address}" amount="${amount}" currency="${currency}" class="${className}">$${amount}</simple-boost>`,
-      }}
-    />
+    <SimpleBoostButton
+      address={address}
+      amount={amount}
+      currency={currency}
+      onSuccess={(e) => handleSuccess(e)}
+      className={className}
+    >
+      {amount}
+    </SimpleBoostButton>
   );
 };
 
